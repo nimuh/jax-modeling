@@ -37,13 +37,13 @@ def _load_from_file(path: str, min_len: int, max_len: int, is_csv: bool = False 
         # process csv file here
         df = pd.read_csv(path)
         proteins = read_df_to_dataobj(df)
-        return sequences
+        return proteins
 
 
     # process fasta file here
     else:
         # TODO
-        Return None
+        return None
 
 
 
