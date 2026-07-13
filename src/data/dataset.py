@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from typing import Optional
 from .tokenizer import ProteinTokenizer
 import pandas as pd
-
+import grain
 
 
 
@@ -47,14 +47,18 @@ def _load_from_file(path: str, min_len: int, max_len: int, is_csv: bool = False 
 
 
 
+class ProteinSequenceSource(grain.sources.RandomAccessDataSource):
+    def __init__(self, path: str, min_len: int, max_len: int, is_csv: bool = False):
+        self.proteins = _load_from_file(path, is_csv=is_csv, min_len=min_len, max_len=max_len)
+        self.tokenizer = ProteinTokenizer()
+
+    def __getitem__(self, idxs):
+        return self.proteins[idxs]
+
+    def __len__(self):
+        return len(self.proteins)
 
 
-# TODO
-# for future, if we want to create sequence splits with controlled sequence similarity
-# for now we will use a sequence dataset that has already been processed at multiple 
-# identity thresholds
-def make_splits():
-    pass
 
 
-
+        
